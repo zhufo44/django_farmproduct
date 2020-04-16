@@ -1,0 +1,84 @@
+{% extends 'product/base.html' %}
+
+{% block title %}
+ <title>供应大厅</title>
+{% endblock title%}
+
+{% block lis %}
+<li class="active"><a href="/farm/supply/">供应大厅</a></li>
+<li><a href="/farm/purcharse/">采购大厅</a></li>
+<li><a href="/farm/vehicle/">车源信息</a></li>
+<li><a href="/farm/storage/">仓储信息</a></li>
+<li><a href="/farm/price/">价格行情</a></li>
+<li><a href="/farm/market/">市场动态</a></li>
+<li><a href="/farm/baike/">农业百科</a></li>
+<li><a href="/farm/statute">政策法规</a></li>
+<li><a href="/publish/">我要发布</a></li>
+{% endblock lis%}
+
+{% block content %}
+		<div class='container-fluid' style="border:1px solid #e7e7e7">
+			<div class='supply-header'>
+				<div>
+					<span>当前位置 &gt</span>
+					<span><a href="">供应大厅</a></span>
+				</div>
+			</div>
+
+			<div class='container-fluid'>
+				<div class='row'>
+					{% for item in suplist %}
+					<div class='col-lg-3 col-xs-12'>
+						<div class='supply-list'>
+							<div class='supply-price'>
+								<a href="{% url 'product:supdetail' item.id %}">
+									{% if item.img %}
+									<img src="{{item.img.url|default_if_none:'#'}}" style="width:235px;height:235px" alt="农场品图">
+									{% else %}
+									<img src="/static/product/images/timg.jpg" style="width:235px;height:235px" alt="农场品图">
+									{% endif %}
+								</a>
+								<h4><a href="{% url 'product:supdetail' item.id %}" style="color:black;font-size:16px">{{item.title|slice:':14'}}</a></h4>
+								<span>{{item.region|slice:':18'}}</span>
+							</div>
+							<div style="margin-top:5px;">
+								<span style="color:#fe7545;">￥{{item.price}}</span>
+								<span class="fr">{{item.pubtime}}</span>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div><!--row end -->
+			</div><!--container-fluid end-->
+			<!-- 分页 -->
+			<nav aria-label="Page navigation" style="text-align:center">
+			 {% if data %}
+				<ul class="pagination">
+					{% if data.first %}
+					<li><a href="?page=1">1</a></li>
+					{% endif %}
+					{% if data.left %}
+					{% if data.left_has_more %}
+					<li><span>...</span></li>
+					{% endif %}
+					{% for i in data.left %}
+					<li><a href="?page={{i}}">{{i}}</a></li>
+					{% endfor %}
+					{% endif %}
+					<li class="active"><a href="?page={{data.page}}">{{data.page}}</a></li>
+					{% if data.right %}
+					{% for i in data.right %}
+					<li><a href="?page={{i}}">{{i}}</a></li>
+					{% endfor %}
+					{% if data.right_has_more %}
+					<li><span>...</span></li>
+					{% endif %}
+					{% endif %}
+					{% if data.last %}
+					<li><a href="?page={{data.total_pages}}">{{data.total_pages}}</a></li>
+					{% endif %}
+				</ul>
+				{% endif %}
+			</nav><!-- 分页 end-->
+		</div>
+{% endblock content %}

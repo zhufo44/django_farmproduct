@@ -1,0 +1,90 @@
+{% extends 'product/base.html' %}
+
+{% block title %}
+ <title>供应大厅</title>
+{% endblock title%}
+
+{% block lis %}
+<li class="active"><a href="/farm/supply/">供应大厅</a></li>
+<li><a href="/farm/purcharse/">采购大厅</a></li>
+<li><a href="/farm/vehicle/">车源信息</a></li>
+<li><a href="/farm/storage/">仓储信息</a></li>
+<li><a href="/farm/price/">价格行情</a></li>
+<li><a href="/farm/market/">市场动态</a></li>
+<li><a href="/farm/baike/">农业百科</a></li>
+<li><a href="/farm/statute">政策法规</a></li>
+<li><a href="/publish/">我要发布</a></li>
+{% endblock lis%}
+
+{% block content %}
+<div class='container-fluid'>
+<div class='sudetail-position'>
+    <span>当前位置 &gt</span>
+    <a href="/farm/supply/">供应大厅</a>
+    <span>&gt</span>
+    <a href="#">{{odetail.category}}</a>
+</div>
+<!-- 详细信息 -->
+<div class='row'>
+    <div class='col-lg-8 col-xs-12'>
+        <div style="border:1px solid #e7e7e7;padding:0px 10px;margin-bottom:10px">
+            <div class='purdetail-title'>
+                <h4>{{odetail.title}}</h4>
+                <span>时间：{{odetail.pubtime}}</span>
+                <span style='margin-left: 30px'>浏览人数：{{odetail.views}}</span>
+                <hr>
+            </div>
+            <div class='row'>
+                <div class='col-lg-6 col-xs-12'>
+                    {% if odetail.img %}
+                    <img src="{{odetail.img.url}}" class='sudetail-img visible-lg-block' alt="农场品图">
+                    <img src="{{odetail.img.url}}" class='img-responsive visible-xs-block' alt="农场品图">
+                    {% else %}
+                    <img src="/static/product/images/timg.jpg" class='sudetail-img visible-lg-block' alt="农场品图">
+                    <img src="/static/product/images/timg.jpg" class='img-responsive visible-xs-block' alt="农场品图">
+                    {% endif %}
+                </div>
+                <div class='col-lg-6 col-xs-12'>
+                    <div class='sudetail-list'>
+                        <div><span style="margin-right:15px">发布人</span>{{odetail.supplys.name}}</div>
+                        <div><span>手机号码</span>{{odetail.supplys.phone}}</div>
+                        <div><span>联系邮箱</span>{{odetail.supplys.email}}</div>
+                        <div><span>所在地区</span>{{odetail.region}}</div>
+                        <div><span>详细地址</span>{{odetail.address}}</div>
+                        <div><span>产品品种</span>{{odetail.category}}</div>
+                        <div><span>最新报价</span>{{odetail.price}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class='row'>
+                <div class='col-lg-12 col-xs-12'>
+                    <div class='sudetail-text'>
+                        {{odetail.detail}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='col-lg-4 col-xs-12'>
+         <div style="border:1px solid #e7e7e7;padding:0px 10px;background-color:#fcfcfc">
+            <div style="margin-top:10px"><strong>热门产品</strong></div>
+            {% for sup in sups%}
+            <div class="suppop">
+                <a href="{% url 'product:supdetail' sup.id %}">
+                    <span style="color:#999;">[供] </span>{{sup.title}}
+                </a>
+            </div>
+            {%endfor%}
+
+            {% for pur in purs%}
+            <div class="purpop">
+                <a href="{% url 'product:purdetail' pur.id %}">
+                    <span style="color:#999;">[求] </span>{{pur.title}}
+                </a>
+            </div>
+            {%endfor%}
+        </div>
+</div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>豌豆直播</title>
+</head>
+<body>
+<ul>
+    {% for url in urllist %}
+    <li><a href="/wandou/{{ url }}">{{ url }}</a></li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

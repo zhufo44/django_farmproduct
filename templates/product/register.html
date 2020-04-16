@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="{% static 'product/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'product/css/main.css' %}">
+	<script src="{% static 'product/js/jquery.min.js' %}"></script>
+	<script src="{% static 'product/js/bootstrap.min.js' %}"></script>
+	<title>用户注册</title>
+</head>
+<body style='background-image: url(/static/product/images/loginbg.jpg)'>
+	<div class='slogo'>
+        <a href="/index/">
+			<h2 style='color:#fff;font-family:STXingkai;margin:12px 0;'>农产品信息物流平台</h2>
+		</a>
+	</div>
+
+	<div class='register-body'>
+		<div class='register-form'>
+			<div class='register-title'>
+				<h1>用户注册</h1>
+				<a href="/login">登录</a>
+			</div>
+			<div class='register-input'>
+				<form action="/register/" method="post">
+                    {% if register_form.captcha.errors %}
+                        <div class="alert alert-warning">{{ register_form.captcha.errors }}</div>
+                    {% elif message %}
+                        <div class="alert alert-warning">{{ message }}</div>
+                    {% endif %}
+
+                    {% csrf_token %}
+                    {{ register_form}}
+					<ul style='list-style: none;padding: 0'>
+						<li class="agreement">
+							<input type="checkbox" name="allow" id="allow" checked="checked">
+							<label>同意”用户使用协议“</label>
+						</li>
+						<li class="reg_sub">
+							<input type="submit" value="注 册" name="">
+						</li>
+					</ul>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+	<!--底部-->
+	<div class="footer">
+		<div class="foot_link">
+			<a href="#">关于网站</a>
+			<span>|</span>
+			<a href="#">网站申明</a>
+			<span>|</span>
+			<a href="#">联系我们</a>
+		</div>
+		<p>CopyRight © 2019 农产品公共信息物流平台 All Rights Reserved </p>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,208 @@
+{% extends 'product/base.html' %}
+
+{% block title %}
+<script>
+        $(function () {
+            $.get('/farm/pro/',function (prolist) {
+                pro = $('.pro')
+                $.each(prolist.data,function (index,item) {
+                    pro.append('<option value="'+item[0]+'">'+item[1]+'</option>')
+                });
+            });
+            $('.pro').change(function() {
+                city = $('.city')
+                $('.dis').empty().append('<option value="0">请选择区</option>');
+                $.get('/farm/city'+$(this).val()+'/',function(citylist) {
+                    city.empty().append('<option value="0">请选择市</option>')
+                    $.each(citylist.data,function(index,item) {
+                        city.append('<option value="'+item.id+'">'+item.title+'</option>')
+                    });
+                });
+            });
+            $('.city').change(function(){
+                $.get('/farm/city'+$(this).val()+'/',function (dislist) {
+                    dis = $('.dis');
+                    dis.empty().append('<option value="0">请选择区</option>');
+                    $.each(dislist.data,function(index,item){
+                        dis.append('<option value="'+item.id+'">'+item.title+'</option>')
+                    });
+                });
+            });
+            $.get('/farm/product/',function (plist){
+                product1 = $('.product1')
+                $.each(plist.data,function(index,item){
+                    product1.append('<option value="'+item[0]+'">'+item[1]+'</option>')
+                });
+            });
+            $('.product1').change(function(){
+                product2 = $('.product2')
+                product2.empty().append('<option value="0">请选择</option>')
+                $.get('/farm/product'+$(this).val()+'/',function(plist){
+                    $.each(plist.data,function(index,item) {
+                        product2.append('<option value="'+item.id+'">'+item.title+'</option>')
+                    });
+                });
+            });
+        });
+        function validate_required(field,alerttxt)
+		{
+			with (field)
+			  {
+			  if (value==null||value=="")
+				{alert(alerttxt);return false}
+			  else {return true}
+			  }
+		}
+		function validate_form(thisform)
+		{
+			with (thisform)
+			  {
+				  if (validate_required(title,"标题不能为空")==false)
+					{title.focus();return false}
+				  if (validate_required(detail,"描述不能为空")==false)
+					{detail.focus();return false}
+			  }
+		}
+</script>
+ <title>我要发布</title>
+{% endblock title%}
+
+{% block lis %}
+<li><a href="/farm/supply/">供应大厅</a></li>
+<li><a href="/farm/purcharse/">采购大厅</a></li>
+<li><a href="/farm/vehicle/">车源信息</a></li>
+<li><a href="/farm/storage/">仓储信息</a></li>
+<li><a href="/farm/price/">价格行情</a></li>
+<li><a href="/farm/market/">市场动态</a></li>
+<li><a href="/farm/baike/">农业百科</a></li>
+<li><a href="/farm/statute">政策法规</a></li>
+<li class="active"><a href="/publish/">我要发布</a></li>
+{% endblock lis%}
+
+{% block content %}
+		<div class='container-fluid'>
+			<!-- 定制短信 -->
+			<div class='pubmessage'>
+				<span>一. 定制短信</span>
+				<p>使用短信发布时，您应该确认已经在本站注册账号，并绑定手机号，没有绑定的手机号，发布是不会生效的。</p>
+				<p>根据不同的需求，按照格式编写相关短信，并将短信发送至13859646512</p>
+				<p>注意：短信内容使用标点符号皆为 中文标点符号</p>
+				<p>1.发布供应-短信格式</p>
+				<p>
+					<strong>*1*  标题：；产品品种：；报价：；所在地区：；详细地址：；描述：； *1*</strong>
+				</p>
+				<p>比如：*1*标题：恩施富硒土豆老品种马尔科，地理标准产品；产品品种：蔬菜-土豆；报价：3000-4000 元/吨；
+					所在地区：湖北省-恩施土家族苗族自治州-恩施市；详细地址：三岔镇；描述：恩施富硒土豆老品种马尔科，黄心土豆，口感软糯；*1*</p>
+				<p>2.发布采购-短信格式</p>
+				<p style="">
+					<strong>*2*  标题：；产品品种：；所在地区：；详细地址：；描述：； *2*</strong>
+				</p>
+				<p>比如：*2*标题：上海青小白菜；产品品种：蔬菜-小白菜；所在地区：山东省-菏泽市-曹县；详细地址：邵庄镇；描述：小油菜产地批发供应，可代办代收，有专业冷库，冷藏车团队；*2*</p>
+			</div>
+			<!-- 网页表单 -->
+			<div class='pubwebform'>
+            	<span>二. 在线发布</span>
+                <!-- 选项卡菜单-->
+              	<ul class="nav nav-tabs pubtab" role="tablist">
+                	<li class="active"><a href="#pubsupply" role="tab" data-toggle="tab">发布供应</a></li>
+                	<li><a href="#pubpurchase" role="tab" data-toggle="tab">发布采购</a></li>
+              	</ul>
+                <!-- 选项卡面板 -->
+				<div class="tab-content">
+					<div class="tab-pane fade in active" id="pubsupply">
+						<form method="post" action='/publish/' enctype="multipart/form-data" onsubmit="return validate_form(this)">
+							{% csrf_token %}
+							<div class='pubgroup'>
+								<label>标题:</label>
+								<input type="text" name="title" placeholder="如：寿光红富士苹果">
+							</div>
+							<div class='pubgroup'>
+								<label for="">产品类别:</label>
+								<select class="product1" name="product1">
+									<option value='0'>请选择类别</option>
+								</select>
+								<select class="product2" name="product2">
+									<option value="0">请选择类别</option>
+								</select>
+							</div>
+							<div class='pubgroup'>
+								<label for="">地区:</label>
+								<select class="pro" name="pro">
+									<option value='0'>请选择省</option>
+								</select>
+								<select class="city" name="city">
+									<option value="0">请选择市</option>
+								</select>
+								<select class="dis" name="dis">
+									<option value="0">请选择区</option>
+								</select>
+							</div>
+							<div class='pubgroup'>
+								<label>详细地址:</label>
+								<input type="text" name="address">
+							</div>
+                            <div class="pubgroup">
+                                <label>图片:</label>
+                                <input type="file" name="file" style="margin-left:82px">
+                            </div>
+							<div class='pubgroup'>
+								<label>出售价格:</label>
+								<input type="text" name="price" placeholder="如：10 元/斤">
+							</div>
+							<div class='form-goup'>
+								<textarea name= 'detail' class="form-control" rows="6" placeholder="详细描述"></textarea>
+							</div>
+							<div class="pubbutton">
+								<button type="submit" class="btn btn-success">提交</button>
+							</div>
+						</form>
+					</div>
+					<!-- 采购面板 -->
+					<div class="tab-pane fade" id="pubpurchase">
+						<form method="post" action='/publish/' onsubmit="return validate_form(this)">
+						{% csrf_token %}
+						<div class='pubgroup'>
+							<label>标题:</label>
+							<input type="text" name="title" placeholder="如：寿光红富士苹果">
+						</div>
+						<div class='pubgroup'>
+							<label for="">产品类别:</label>
+							<select class="product1" name="product1">
+								<option value='0'>请选择类别</option>
+							</select>
+							<select class="product2" name="product2">
+								<option value="0">请选择类别</option>
+							</select>
+						</div>
+						<div class='pubgroup'>
+							<label for="">地区:</label>
+							<select class="pro" name="pro">
+								<option value='0'>请选择省</option>
+							</select>
+							<select class="city" name="city">
+								<option value="0">请选择市</option>
+							</select>
+							<select class="dis" name="dis">
+								<option value="0">请选择区</option>
+							</select>
+						</div>
+						<div class='pubgroup'>
+							<label>详细地址:</label>
+							<input type="text" name="address">
+						</div>
+						<!--<div class='pubgroup'>-->
+							<!--<label>收购价格:</label>-->
+							<!--<input type="text" name="price" placeholder="如：10 元/斤">-->
+						<!--</div>-->
+						<div class='form-goup'>
+							<textarea name= 'detail' class="form-control" rows="6" placeholder="详细描述"></textarea>
+						</div>
+						<div class="pubbutton">
+							<button type="submit" class="btn btn-success">提交</button>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+{% endblock content %}

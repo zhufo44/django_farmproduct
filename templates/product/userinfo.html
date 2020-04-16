@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+  <title>用户中心</title>
+  <link href="/static/xadmin/vendor/bootstrap/css/bootstrap.css" type="text/css" media="screen" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/static/xadmin/css/themes/bootstrap-xadmin.css" />
+  <link href="/static/xadmin/vendor/font-awesome/css/font-awesome.css" type="text/css" media="screen" rel="stylesheet">
+  <link href="/static/xadmin/css/xadmin.main.css" type="text/css" media="screen" rel="stylesheet">
+  <link href="/static/xadmin/css/xadmin.plugins.css" type="text/css" media="screen" rel="stylesheet">
+  <link href="/static/xadmin/css/xadmin.responsive.css" type="text/css" media="screen" rel="stylesheet">
+  <link href="/static/xadmin/css/xadmin.page.dashboard.css" type="text/css" media="screen" rel="stylesheet">
+  <script type="text/javascript" src="/static/xadmin/vendor/jquery/jquery.js"></script>
+  <style type="text/css">
+    .pubgroup{
+   margin:25px 0;
+    }
+    .pubgroup label{
+        color:#999999;
+        text-align:right;
+        margin:0px;
+        width:70px;
+    }
+    .pubgroup input{
+        width:200px;
+        margin-left:10px;
+    }
+  </style>
+  {% block script %}
+  {% endblock script %}
+</head>
+<body class="dashboard">
+  <div id="top-nav" class="navbar navbar-xs navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/index">农产品物流平台</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav pull-right">
+          <li class="dropdown">
+            <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+            <strong>欢迎， {{request.session.user_name}}</strong> <span class="caret"></span></a>
+            <ul id="g-account-menu" class="dropdown-menu" role="menu">
+              <li><a href="#"><i class="fa fa-key"></i> 更改密码</a></li>
+            </ul>
+          </li>
+        <li><a href="/logout/"><i class="show-sm fa fa-sign-out"></i><span class="hide-sm">注销</span></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="body-content" class="clearfix row">
+    <div id="left-side" class="col-sm-1 col-md-2">
+      {% block ulactive %}
+      <ul class="well nav nav-pills nav-stacked nav-sitemenu hide-sm">
+        <li class="active">
+          <a href="/userinfo">
+          <i class="fa-fw fa fa-circle-o"></i>
+          <span>个人信息</span></a>
+        </li>
+
+        <li>
+          <a href="/mysupply">
+          <i class="fa-fw fa fa-circle-o"></i>
+          <span>管理供应</span></a>
+        </li>
+
+        <li>
+          <a href="/mypurchase">
+          <i class="fa-fw fa fa-circle-o"></i>
+          <span>管理采购</span></a>
+        </li>
+      </ul>
+      {% endblock ulactive%}
+    </div>
+
+    <div id="content-block" class="col-sm-11 col-md-10">
+      <div class="navbar content-navbar navbar-default navbar-xs" data-toggle="breakpoint"
+        data-class-xs="navbar content-navbar navbar-inverse navbar-xs"
+        data-class-sm="navbar content-navbar navbar-default navbar-xs">
+        <div class="navbar-header">
+          <button class="navbar-toggle pull-left" data-toggle="class" data-target="#body-content" data-class-name="show_menu">
+            <i class="fa fa-list"></i>
+          </button>
+          <a class="navbar-brand" data-toggle="collapse" data-target="#top-nav .navbar-collapse">
+            <i class="fa fa-dashboard"></i>
+          </a>
+        </div>
+      </div>
+    {% block content %}
+    <!--页面显示-->
+        <div>
+            <h4 style='font-weight:bold;'>修改信息</h4>
+            <form method="post" action='/alterinfo/'>
+               {% csrf_token %}
+              <div class='pubgroup'>
+                <label>用户名:</label>
+                <input type="text" name="username" value="{{user.name}}">
+              </div>
+              <div class='pubgroup'>
+                <label>手机号:</label>
+                <input type="text" name="phone" value="{{user.phone}}">
+              </div>
+              <div class='pubgroup'>
+                <label>邮箱:</label>
+                <input type="text" name="email" value="{{user.email}}">
+              </div>
+              <button type="submit" class="btn btn-success">提交</button>
+
+
+            </form>
+        </div>
+      {% endblock content %}
+
+    </div>
+  </div>
+    <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.core.js"></script>
+    <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.mouse.js"></script>
+    <script type="text/javascript" src="/static/xadmin/vendor/jquery-ui/jquery.ui.sortable.js"></script>
+    <script type="text/javascript" src="/static/xadmin/vendor/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/static/xadmin/js/xadmin.main.js"></script>
+    <script type="text/javascript" src="/static/xadmin/js/xadmin.responsive.js"></script>
+    <script type="text/javascript" src="/static/xadmin/js/xadmin.page.dashboard.js"></script>
+    <script type="text/javascript" src="/static/xadmin/js/xadmin.plugin.portal.js"></script>
+</body>
+</html>

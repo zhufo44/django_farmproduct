@@ -1,0 +1,37 @@
+{% extends 'product/base.html' %}
+
+{% block title %}
+ <title>价格行情</title>
+{% endblock title%}
+
+{% block lis %}
+<li><a href="/farm/supply/">供应大厅</a></li>
+<li><a href="/farm/purcharse/">采购大厅</a></li>
+<li><a href="/farm/vehicle/">车源信息</a></li>
+<li><a href="/farm/storage/">仓储信息</a></li>
+<li class="active"><a href="/farm/price/">价格行情</a></li>
+<li><a href="/farm/market/">市场动态</a></li>
+<li><a href="/farm/baike/">农业百科</a></li>
+<li><a href="/farm/statute">政策法规</a></li>
+<li><a href="/publish/">我要发布</a></li>
+{% endblock lis%}
+
+{% block content %}
+		<div class='container-fluid  price-table'>
+            <div style='margin:15px 0;'>
+				<span>当前位置 &gt</span>
+				<span><a href="">价格行情</a></span>
+			</div>
+            <div class='price-title'>
+                <h4>{{ article.title }}</h4>
+                <span>日期：{{ article.pubtime }}</span>
+                <span>作者：{{ article.author }}</span>
+                <span>来源：{{ article.source}}</span>
+                <hr>
+            </div>
+            <div class='price-text'>
+                    {{ article.content }}
+            </div>
+        </div>
+
+{% endblock content %}

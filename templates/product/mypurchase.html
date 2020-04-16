@@ -1,0 +1,67 @@
+{% extends 'product/userinfo.html' %}
+{% block script %}
+    <script>
+        function delfunction(key){
+            var url = "http://nong.xiaomy.net/del/purchase"+key
+            var request = new XMLHttpRequest();
+            flag = confirm("确认要删除该文档?")
+            if(flag){
+                request.open("get", url);
+                request.send()
+            }
+        }
+    </script>
+{% endblock script %}
+  {% block ulactive %}
+  <ul class="well nav nav-pills nav-stacked nav-sitemenu hide-sm">
+    <li>
+      <a href="/userinfo">
+      <i class="fa-fw fa fa-circle-o"></i>
+      <span>个人信息</span></a>
+    </li>
+
+    <li>
+      <a href="/mysupply">
+      <i class="fa-fw fa fa-circle-o"></i>
+      <span>管理供应</span></a>
+    </li>
+
+    <li class="active">
+      <a href="/mypurchase">
+      <i class="fa-fw fa fa-circle-o"></i>
+      <span>管理采购</span></a>
+    </li>
+  </ul>
+  {% endblock ulactive%}
+
+{% block content %}
+<div>
+    <div style="background-color:#f8f8f8;height:50px;margin-bottom:20px">
+      <div style="line-height:50px;padding-left:10px">
+        <span style="font-size:18px;color:#777">采购信息 </span>（{{purchases.count}}）
+        <div class="navbar-btn pull-right">
+                  <a href="/publish/" class="btn btn-primary" style="float:right">添加</a>
+        </div>
+
+      </div>
+    </div>
+    <table class='table table-striped table-bordered'>
+      <thead>
+        <tr>
+          <td>标题</td>
+          <td class="hide-xs">发布时间</td>
+          <td>动作</td>
+        </tr>
+      </thead>
+      <tbody>
+      {% for sup in purchases%}
+      <tr>
+        <td><a href="{% url 'product:supdetail' sup.id %}">{{sup.title}}</a></td>
+        <td class="hide-xs">{{sup.pubtime}}</td>
+        <td><button onclick=delfunction('{{sup.id}}')  type="button">删除</button></td>
+      </tr>
+      {%endfor%}
+      </tbody>
+    </table>
+</div>
+{% endblock content %}
